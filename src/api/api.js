@@ -1,5 +1,14 @@
-export const fetchPosts = async () => {
-  const postsRes = await fetch("http://localhost:3000/posts");
+export const fetchPosts = async (page) => {
+  const postsRes = await fetch(
+    `http://localhost:3000/posts?_sort=-id&${
+      page ? `_page=${page}&_per_page=5` : ""
+    }`
+  );
+
+  if (!postsRes.ok) {
+    throw new Error(`Failed to fetch posts. Status: ${postsRes.status}`);
+  }
+
   const response = await postsRes.json();
   return response;
 };
